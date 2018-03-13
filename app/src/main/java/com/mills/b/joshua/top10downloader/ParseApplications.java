@@ -26,7 +26,7 @@ public class ParseApplications {
 
     public boolean parse(String xmlData){
         boolean status = true;
-        FeedEntry currentRecord = null;
+        FeedEntry currentRecord = new FeedEntry();
         boolean inEntry = false;
         String textValue = "";
         try{
