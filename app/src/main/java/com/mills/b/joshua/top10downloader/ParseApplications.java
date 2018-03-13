@@ -26,7 +26,7 @@ public class ParseApplications {
 
     public boolean parse(String xmlData){
         boolean status = true;
-        FeedEntry currentRecord = new FeedEntry();
+        FeedEntry currentRecord = null;
         boolean inEntry = false;
         String textValue = "";
         try{
@@ -74,6 +74,10 @@ public class ParseApplications {
         }catch (Exception e){
             status = false;
             e.printStackTrace();
+        }
+
+        for (FeedEntry feed: applications) {
+            Log.d(TAG, "parse: "+feed.toString());
         }
 
         return status;
