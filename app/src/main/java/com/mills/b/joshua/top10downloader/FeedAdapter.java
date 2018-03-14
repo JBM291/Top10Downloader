@@ -25,7 +25,7 @@ public class FeedAdapter extends ArrayAdapter {
     private static final String TAG = "FeedAdapter";
     private final int layoutResource;
     private final LayoutInflater layoutInflater;
-    private List<FeedEntry> applications;
+    public List<FeedEntry> applications;
 
     public FeedAdapter(Context context, int resource, List<FeedEntry> applications) {
         super(context, resource);

@@ -17,6 +17,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ListView listApps;
+    FeedAdapter feedAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,17 +39,18 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d(TAG, "onPostExecute: parameter is" + s);
-            ParseApplications parseApplications = new ParseApplications();
-            parseApplications.parse(s);
+
 //            ArrayAdapter<FeedEntry> arrayAdapter = new ArrayAdapter<FeedEntry>(
 //                    MainActivity.this,R.layout.list_item,parseApplications.getApplications());
 //            listApps.setAdapter(arrayAdapter);
+            ParseApplications parseApplications = new ParseApplications();
 
-            FeedAdapter feedAdapter = new FeedAdapter(
+            feedAdapter = new FeedAdapter(
                     MainActivity.this,
                     R.layout.list_record,
                     parseApplications.getApplications());
             listApps.setAdapter(feedAdapter);
+            parseApplications.parse(s,feedAdapter);
         }
 
         @Override

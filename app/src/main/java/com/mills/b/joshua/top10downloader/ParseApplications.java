@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class ParseApplications {
     private static final String TAG = "ParseApplications";
     private ArrayList<FeedEntry> applications;
+    private FeedAdapter feedAdapter;
 
     public ParseApplications() {
         this.applications = new ArrayList<>();
@@ -27,9 +28,10 @@ public class ParseApplications {
         return applications;
     }
 
-    public boolean parse(String xmlData){
+    public boolean parse(String xmlData, final FeedAdapter feedAdapter){
         boolean status = true;
         FeedEntry currentRecord = new FeedEntry();
+        this.feedAdapter = feedAdapter;
         boolean inEntry = false;
         String textValue = "";
         try{
@@ -111,6 +113,9 @@ public class ParseApplications {
 
         protected void onPostExecute(Bitmap result) {
             feedEntry.setBitmap(result);
+            if(feedAdapter!=null){
+                feedAdapter.notifyDataSetChanged();
+            }
         }
-    }
+}
 }
