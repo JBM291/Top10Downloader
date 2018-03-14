@@ -1,11 +1,14 @@
 package com.mills.b.joshua.top10downloader;
 
-import android.app.ExpandableListActivity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 /**
@@ -62,7 +65,11 @@ public class ParseApplications {
                         }else if("summary".equalsIgnoreCase(tagName)){
                             currentRecord.setSummary(textValue);
                         }else if("image".equalsIgnoreCase(tagName)){
-                            currentRecord.setImageURL(textValue);
+                            if(currentRecord.getImageURL().equals("")) {
+                                currentRecord.setImageURL(textValue);
+                                new ParseApplications.DownloadImageTask(currentRecord)
+                                        .execute(textValue);
+                            }
                         }
                         break;
                     default:
@@ -81,5 +88,29 @@ public class ParseApplications {
         }
 
         return status;
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        private FeedEntry feedEntry;
+        public DownloadImageTask(FeedEntry entry) {
+            this.feedEntry = entry;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap bitmap = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bitmap = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            feedEntry.setBitmap(result);
+        }
     }
 }

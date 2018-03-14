@@ -1,5 +1,13 @@
 package com.mills.b.joshua.top10downloader;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.ImageView;
+
+import java.io.InputStream;
+
 /**
  * Created by Inferno on 3/12/2018.
  */
@@ -9,7 +17,16 @@ public class FeedEntry {
     private String artist;
     private String releaseDate;
     private String summary;
-    private String imageURL;
+    private String imageURL = "";
+    private Bitmap bitmap;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public String getName() {
         return name;
@@ -57,4 +74,7 @@ public class FeedEntry {
                 "artist= " + artist + '\n' +
                 "releaseDate= " + releaseDate +'\n';
     }
+
+
+
 }
