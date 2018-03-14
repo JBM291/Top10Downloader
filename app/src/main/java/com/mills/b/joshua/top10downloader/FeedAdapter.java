@@ -52,7 +52,7 @@ public class FeedAdapter extends ArrayAdapter {
         }
 
         FeedEntry currentApp = applications.get(position);
-
+        viewHolder.tvRecordNumber.setText(Integer.toString(position+1));
         viewHolder.tvName.setText(currentApp.getName());
         viewHolder.tvReleaseDate.setText(currentApp.getReleaseDate());
         viewHolder.tvArtist.setText(currentApp.getArtist());
@@ -64,13 +64,15 @@ public class FeedAdapter extends ArrayAdapter {
     }
 
     private class ViewHolder{
+        final TextView tvRecordNumber;
        final TextView tvName;
        final TextView tvReleaseDate;
        final TextView tvArtist;
        final TextView tvSummary;
        final ImageView imAppImage;
-       ViewHolder(View v){
 
+       ViewHolder(View v){
+           this.tvRecordNumber = v.findViewById(R.id.tvRecordNumber);
            this.tvName = v.findViewById(R.id.tvName);
            this.tvReleaseDate = v.findViewById(R.id.tvReleaseDate);
            this.tvArtist = v.findViewById(R.id.tvArtist);
