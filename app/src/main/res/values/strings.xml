@@ -4,4 +4,6 @@
     <string name="mnuPaidTxt">Paid Apps</string>
     <string name="mnuSongs">Songs</string>
     <string name="mnuNewApp">Just Added Apps</string>
+    <string name="mnuTop10Txt">Top 10</string>
+    <string name="mnuTop25Txt">Top 25</string>
 </resources>
