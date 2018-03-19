@@ -6,4 +6,5 @@
     <string name="mnuNewApp">Just Added Apps</string>
     <string name="mnuTop10Txt">Top 10</string>
     <string name="mnuTop25Txt">Top 25</string>
+    <string name="mnuRefreshTxt">Refresh</string>
 </resources>

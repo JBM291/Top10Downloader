@@ -22,17 +22,31 @@ public class MainActivity extends AppCompatActivity {
     FeedAdapter feedAdapter;
     private String feedUrl = "http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=%d/xml";
     private int feedLimit = 10;
+    private String feedCachedUrl = "INVALIDATED";
+    public static final String STATE_URL = "feedUrl";
+    public static final String STATE_LIMIT = "feedLimit";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listApps = findViewById(R.id.xmlListView);
+        if(savedInstanceState != null){
+            feedUrl = savedInstanceState.getString(STATE_URL);
+            feedLimit = savedInstanceState.getInt(STATE_LIMIT);
+        }
         downloadUrl(String.format(feedUrl,feedLimit));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.feeds_menu, menu);
+        if(feedLimit == 10){
+            menu.findItem(R.id.mnuTop10).setChecked(true);
+        }else{
+            menu.findItem(R.id.mnuTop25).setChecked(true);
+        }
         return true;
     }
 
@@ -56,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                     feedLimit=35-feedLimit;
                 }
                 break;
+            case R.id.mnuRefresh:
+                    feedCachedUrl = "INVALIDATED";
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -63,9 +79,23 @@ public class MainActivity extends AppCompatActivity {
         downloadUrl(String.format(feedUrl, feedLimit));
         return true;
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_URL,feedUrl);
+        outState.putInt(STATE_LIMIT,feedLimit);
+        super.onSaveInstanceState(outState);
+    }
+
+
+
     private void downloadUrl(String url){
-        DownloadData downloadData = new DownloadData();
-        downloadData.execute(url);
+        if(!feedUrl.equalsIgnoreCase(feedCachedUrl)){
+            DownloadData downloadData = new DownloadData();
+            downloadData.execute(url);
+            feedCachedUrl = feedUrl;
+        }
+
     }
 
     private class DownloadData extends AsyncTask<String, Void, String> {
